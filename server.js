@@ -3,10 +3,9 @@ const request = require('request');
 const mongoose = require('mongoose');
 const Query = require('./query');
 
-const url = `mongodb://localhost:27017/image-search`;
-
 const app = express();
 const port = process.env.PORT || 8080;
+const url = process.env.MONGODB_URI || `mongodb://localhost:27017/image-search`;
 const db = mongoose.connect(url).connection;
 
 const API_URL = 'https://www.googleapis.com/customsearch/v1';
