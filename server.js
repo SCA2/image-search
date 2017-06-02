@@ -21,23 +21,21 @@ app.get('/api/imagesearch/:search', (req, res) => {
   const term = req.params.search;
   const offset = req.query.offset;
 
-  // console.log("Search term: " + term);
-
   request.get({ url: API_URL + params(term, offset) }, (err, response, body) => {
+
+    if(err) res.send(err);
+
     if (!err && response.statusCode == 200) {
       var query = new Query({ term: term });
       query.save();
       var items = JSON.parse(body).items;
-      items = items.map((item) => { return({
+      items = items.map(item => { return({
         url: item.link,
         snippet: item.snippet,
         thumbnail: item.image.thumbnailLink,
         context: item.image.contextLink
       })});
       res.json(items); 
-    }
-    if(err) {
-      console.log(err);
     }
   });
 });
